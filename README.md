@@ -146,3 +146,72 @@ func verificaNomeRefeicao(_ refeicao: Refeicao){
 }
 ```
 ---
+
+#### Criando uma table view
+
+ - Para a criacao de uma table view precisamos de pelo menos duas informacoes:
+   - A quantirade de linhas
+   - O conteudo que vai ser exibido em cada celula
+    
+ - Para isso contamos com dois metodos "obrigatorios" na criacao da classe
+    1 - ```numberOfRowsInSection```
+    2 - ```cellForRowAt```
+
+- Sobre **numberOfRowsInSection**
+    - retorna a quantidade de celulas que a Table View deve ter, no exemplo usamos o tamanho da lista *refeicoes*
+```swift
+let refeicoes = ["Pizza", "Macarrao", "Arroz e Feijao"];
+
+//...
+
+override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return refeicoes.count
+}
+```
+- Sobre **cellForRowAt**
+    - **IndexPath** - Indice aonde os elementos da lista vao estar
+```swift
+override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Criando a celula que vai ser retornada
+        let celula = UITableViewCell(style: .default, reuseIdentifier: nil);
+        
+        // Toda vez que houver uma celula nova antes de renderizar a tela, o index path vai estar exatamente no valor que deve ser renderizado. 
+        // No nosso exemplo ele vai passar tres vezes exbiindo "Pizza", "Macarrao" e "Arroz e Feijao"
+        let refeicao = refeicoes[indexPath.row]
+        
+        // Atribuindo o valor da celula com o valor da posicao referente ao indexPath
+        celula.textLabel?.text = refeicao
+        
+        //retornando a celula
+        return celula  
+    }
+```
+
+- A classe fica assim
+```swift
+class ViewController: UITableViewController {
+
+    
+    let refeicoes = ["Pizza", "Macarrao", "Arroz e Feijao"];
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("TableViewController foi carregada com sucesso")
+    }
+
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return refeicoes.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let celula = UITableViewCell(style: .default, reuseIdentifier: nil);
+
+        let refeicao = refeicoes[indexPath.row]
+        
+        celula.textLabel?.text = refeicao
+        
+        return celula  
+    }
+}
+```
