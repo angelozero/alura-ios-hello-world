@@ -40,7 +40,7 @@ for cor in cores {
 }
 ```
 ---
-##### Criando funções em swift
+#### Criando funções em swift
  - uma simples função
 ```swift
     func funcaoTeste(){
@@ -97,7 +97,7 @@ for cor in cores {
     let valorTotal:Double = funcaoQueCalculaValoresDentroDaLista(valores)
 ```
 ---
-##### Classes
+#### Classes
  - Criando uma classe
 ```swift
 class Refeicao {
