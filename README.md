@@ -215,3 +215,136 @@ class ViewController: UITableViewController {
     }
 }
 ```
+
+---
+
+##### Fazendo telas se comunicarem
+ - Na classe ViewController, primeiro criamos uma isntancia da classe RefeicoesTableViewController na classe ViewController
+
+```swift
+ class ViewController: UIViewController {
+    
+    // Declarando uma variavel referente a table view controller de refeicao e deixando ela opcional pois nao sabemos o momento em que ela é instanciada
+    var refeicoesTableViewController: RefeicoesTableViewController?
+    
+    //... some code here
+    }
+ ```
+- Depois para cada refeicao adicionada ( medoto adicionar ) passamos esse objeto para nossa classe RefeicoesTableViewController
+
+```swift
+ //Invocando  o metodo de adicionar na lista a nova refeicao informada pelo usuario
+ refeicoesTableViewController?.addRefeicao(refeicao)
+```
+- E por fim para acada refeicao adicionada nos finalizamos a tela para voltar para a tela de lista com as refeicoes ( tela inicial da aplicacao )
+
+```swift
+// Metodo para retornar a tela anterior executado quando o botao adicionar for clicado
+        navigationController?.popViewController(animated: true)
+```
+
+- A classe ViewController fica assim
+
+```swift
+import UIKit
+
+class ViewController: UIViewController {
+    
+    // Declarando uma variavel referente a table view controller de refeicao e deixando ela opcional pois nao sabemos o momento em que ela é instanciada
+    var refeicoesTableViewController: RefeicoesTableViewController?
+    
+    @IBOutlet var nomeTextField: UITextField?
+    @IBOutlet weak var felicidadeTextField: UITextField?
+    
+    @IBAction func adicionar(_ sender: Any) {
+        
+        guard let nomeDaRefeicao = nomeTextField?.text else {
+            return
+        }
+        
+        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else {
+            return
+        }
+        
+        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade)
+        
+        print("Refeicao: \(refeicao.nome)\nFelicidade: \(refeicao.felicidade)")
+        
+        
+        //Invocando  o metodo de adicionar na lista a nova refeicao informada pelo usuario
+        refeicoesTableViewController?.addRefeicao(refeicao)
+        
+        // Metodo para retornar a tela anterior executado quando o botao adicionar for clicado
+        navigationController?.popViewController(animated: true)
+    }
+}
+```
+
+- Agora na classe RefeicoesTableViewController sobreescrevemos o metodo prepare for segue, ele é o metodo que intercepta toda vez que o comando "segue" invoca a outra tela
+
+```swift
+ // Metodo que é invocado antes do comando "segue", comando que chama a proxima tela
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Aqui acesso a classe da refeicao e inicializo a variavel declarada ---> var refeicoesTableViewController: RefeicoesTableViewController?
+        // o if fica da seguinte maneira:
+        // se na hora de interceptar a proxima tela, a variavel conseguir ser convertida ( cast ) para UIViewController ( que é o tipo da classe ViewController )
+        if let viewController = segue.destination as? ViewController {
+            // Entao inicializa
+            viewController.refeicoesTableViewController = self
+        }
+    }
+```
+
+- Alem disso criamos um metodo para adiconar na lista uma refeicao da qual a classe ViewController vai usar
+
+```swift
+    func addRefeicao(_ refeicao: Refeicao){
+        refeicoes.append(refeicao);
+        
+        //Metodo para recarregar a tela
+        tableView.reloadData();
+    }
+```
+- A classe fica assim RefeicoesTableViewController
+
+```swift
+class RefeicoesTableViewController: UITableViewController {
+    
+    var refeicoes = [Refeicao(nome: "Pizza", felicidade: 4),
+                     Refeicao(nome: "Lanche", felicidade: 5),
+                     Refeicao(nome: "Salada", felicidade: 2)]
+    
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return refeicoes.count;
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
+        
+        celula.textLabel?.text = refeicoes[indexPath.row].nome;
+        
+        return celula;
+        
+    }
+    
+    func addRefeicao(_ refeicao: Refeicao){
+        refeicoes.append(refeicao);
+        tableView.reloadData();
+    }
+    
+    // Metodo que é invocado antes do comando "segue", comando que chama a proxima tela
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Aqui acesso a classe da refeicao e inicializo a variavel declarada ---> var refeicoesTableViewController: RefeicoesTableViewController?
+        // o if fica da seguinte maneira:
+        // se na hora de interceptar a proxima tela, a variavel conseguir ser convertida ( cast ) para UIViewController ( que é o tipo da classe ViewController )
+        if let viewController = segue.destination as? ViewController {
+            // Entao inicializa
+            viewController.refeicoesTableViewController = self
+        }
+    }
+}
+```
