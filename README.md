@@ -218,7 +218,7 @@ class ViewController: UITableViewController {
 
 ---
 
-##### Fazendo telas se comunicarem
+#### Fazendo telas se comunicarem
  - Na classe ViewController, primeiro criamos uma isntancia da classe RefeicoesTableViewController na classe ViewController
 
 ```swift
@@ -230,18 +230,23 @@ class ViewController: UITableViewController {
     //... some code here
     }
  ```
+ ---
+ 
 - Depois para cada refeicao adicionada ( medoto adicionar ) passamos esse objeto para nossa classe RefeicoesTableViewController
 
 ```swift
  //Invocando  o metodo de adicionar na lista a nova refeicao informada pelo usuario
  refeicoesTableViewController?.addRefeicao(refeicao)
 ```
+---
+
 - E por fim para acada refeicao adicionada nos finalizamos a tela para voltar para a tela de lista com as refeicoes ( tela inicial da aplicacao )
 
 ```swift
 // Metodo para retornar a tela anterior executado quando o botao adicionar for clicado
         navigationController?.popViewController(animated: true)
 ```
+---
 
 - A classe ViewController fica assim
 
@@ -280,6 +285,8 @@ class ViewController: UIViewController {
 }
 ```
 
+---
+
 - Agora na classe RefeicoesTableViewController sobreescrevemos o metodo prepare for segue, ele é o metodo que intercepta toda vez que o comando "segue" invoca a outra tela
 
 ```swift
@@ -296,6 +303,8 @@ class ViewController: UIViewController {
     }
 ```
 
+---
+
 - Alem disso criamos um metodo para adiconar na lista uma refeicao da qual a classe ViewController vai usar
 
 ```swift
@@ -306,6 +315,9 @@ class ViewController: UIViewController {
         tableView.reloadData();
     }
 ```
+
+---
+
 - A classe fica assim RefeicoesTableViewController
 
 ```swift
@@ -348,3 +360,4 @@ class RefeicoesTableViewController: UITableViewController {
     }
 }
 ```
+---
