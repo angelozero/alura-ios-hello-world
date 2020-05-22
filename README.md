@@ -361,3 +361,45 @@ class RefeicoesTableViewController: UITableViewController {
 }
 ```
 ---
+#### Entendendo a diferenca de se usar o "_" ou um nome como nome do metodo no parametro do metodo
+
+ - 1 - "_" -> o underline faz com que o nome do parametro nao seja exibido na chamada do metodo, ficando desta maneira
+```swift    
+    //Usando o _
+    func sum(_ n1: Int, _ n2: Int ) -> Int {
+        return n1 + n2;
+    }
+    
+    //Sem o _
+    func sub(n1: Int, n2: Int) -> Int {
+        return n1 - n2;
+    }
+    
+    func exampleMethodUnderscore(){
+        let sumResult  = sum(2, 3);
+        let subResult = sub(n1: 10, n2: 2)
+        
+        print("Sum result is \(sumResult)")
+        print("Sub result is \(subResult)")
+    }
+```
+
+ - 2 - usando o nome dentro do parametro
+    - Usar o nome dentro do parametro explica tambem alguns metodos que o proprio swift usa
+```swift
+    // Usando um nome no lugar do _
+    func sumOnly(doubleValues n1: Double, n2: Double) -> Double {
+        return n1 + n2;
+    }
+```
+ - Para encontrar o metodo sumOny podemos buscar vida CTRL + barra de espaço o nome dele que é double values
+   - A leitura do metodo fica mais ou menos assim
+   - Sum only double values ou Somando apenas valores do tipo double
+   - ```doubleValu ... + CTRL + barra de espaço```
+   
+```swift
+    func exampleMethodNameParameter(){        
+        let sumDoubleValuesResult = sumOnly(doubleValues: 2.5, n2: 7.2);
+        print("Sum dobule values result is \(sumDoubleValuesResult)")
+    }
+```
