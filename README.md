@@ -406,6 +406,10 @@ class RefeicoesTableViewController: UITableViewController {
 ---
 
 #### Diferenca entre if let e guard let
+
+ - No escopo do ```if``` se a variavel for diferente de nula, ela pode ser acessada apenas dentro do escopo do if
+ - no escopo do ```guard``` se a variavel for difernte de nula, ela pode ser acessada dentro do escopo do meotoo no qual ela foi declarada
+
 ```swift
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
