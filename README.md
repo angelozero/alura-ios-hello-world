@@ -403,3 +403,17 @@ class RefeicoesTableViewController: UITableViewController {
         print("Sum dobule values result is \(sumDoubleValuesResult)")
     }
 ```
+---
+
+#### Diferenca entre if let e guard let
+```swift
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Declarando if let a variavel é acessivel apenas dentro do escopo do if
+        if let celula = tableView.cellForRow(at: indexPath){
+            // celula pode ser usada apenas aqui dentro
+        }
+        // Declarando guard let a variavel pode ser usada dentro do metodo invocado
+        guard let celula = tableView.cellForRow(at: indexPath) else {return}
+        // celua pode ser usadad dentro de todo o metodo didSelectRowAt
+    }
+```
