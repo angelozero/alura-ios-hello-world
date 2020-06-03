@@ -424,3 +424,40 @@ class RefeicoesTableViewController: UITableViewController {
         
     }
 ```
+
+---
+
+#### Criando um botao programaticamente, deixando ele ao lado direto no topo e invocando o metodo correto
+
+ - Primeiro invocamos o metodo ```viewDidLoad()``` ele sera executado assim que a tela for carregada
+ - Entendendo os itens agora de um ```UIBarButtonItem```
+    - title ---> titulo que o botao ira receber
+    - style ---> estilo que o botao vai ter quando for pressionado ( parte visual )
+    - target ---> diz aonde o metodo esta ( em qual classe ele se encontra Ex.: " target: ClasseComMetodo.metodo" )
+    - action ---> açao que sera invoacada quando o botao for pressionado
+    - #selector(self.adicionarItem) ---> em vez de usar uma string para informar o nome do metodo a ser invocado, usamos exatamente a chamada dele atraves da classe
+    
+```swift
+    
+    // Metodo que sera executado assim que a tela for carregada
+    override func viewDidLoad() {
+        // Entendendo melhor o UIBarButtonItem
+        // title ---> titulo que o botao ira receber
+        // style ---> estilo que o botao vai ter quando for pressionado ( parte visual )
+        // target ---> diz aonde o metodo esta ( em qual classe ele se encontra Ex.: " target: ClasseComMetodo.metodo" )
+        // action ---> açao que sera invoacada quando o botao for pressionado
+        // #selector(self.adicionarItem) ---> em vez de usar uma string para informar o nome do metodo a ser invocado, usamos exatamente a chamada dele atraves da classe
+        
+        let botaoAdiconaItem = UIBarButtonItem(title: "adiciona item", style: .plain, target: self, action: #selector(self.adicionarItem))
+        
+        navigationItem.rightBarButtonItem = botaoAdiconaItem
+    }
+    
+    @objc func adicionarItem(){
+        print("item adicionado")
+    }
+```
+
+---
+
+
