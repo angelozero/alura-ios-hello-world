@@ -215,3 +215,249 @@ class ViewController: UITableViewController {
     }
 }
 ```
+
+---
+
+#### Fazendo telas se comunicarem
+ - Na classe ViewController, primeiro criamos uma isntancia da classe RefeicoesTableViewController na classe ViewController
+
+```swift
+ class ViewController: UIViewController {
+    
+    // Declarando uma variavel referente a table view controller de refeicao e deixando ela opcional pois nao sabemos o momento em que ela é instanciada
+    var refeicoesTableViewController: RefeicoesTableViewController?
+    
+    //... some code here
+    }
+ ```
+ ---
+ 
+- Depois para cada refeicao adicionada ( medoto adicionar ) passamos esse objeto para nossa classe RefeicoesTableViewController
+
+```swift
+ //Invocando  o metodo de adicionar na lista a nova refeicao informada pelo usuario
+ refeicoesTableViewController?.addRefeicao(refeicao)
+```
+---
+
+- E por fim para acada refeicao adicionada nos finalizamos a tela para voltar para a tela de lista com as refeicoes ( tela inicial da aplicacao )
+
+```swift
+// Metodo para retornar a tela anterior executado quando o botao adicionar for clicado
+        navigationController?.popViewController(animated: true)
+```
+---
+
+- A classe ViewController fica assim
+
+```swift
+import UIKit
+
+class ViewController: UIViewController {
+    
+    // Declarando uma variavel referente a table view controller de refeicao e deixando ela opcional pois nao sabemos o momento em que ela é instanciada
+    var refeicoesTableViewController: RefeicoesTableViewController?
+    
+    @IBOutlet var nomeTextField: UITextField?
+    @IBOutlet weak var felicidadeTextField: UITextField?
+    
+    @IBAction func adicionar(_ sender: Any) {
+        
+        guard let nomeDaRefeicao = nomeTextField?.text else {
+            return
+        }
+        
+        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else {
+            return
+        }
+        
+        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade)
+        
+        print("Refeicao: \(refeicao.nome)\nFelicidade: \(refeicao.felicidade)")
+        
+        
+        //Invocando  o metodo de adicionar na lista a nova refeicao informada pelo usuario
+        refeicoesTableViewController?.addRefeicao(refeicao)
+        
+        // Metodo para retornar a tela anterior executado quando o botao adicionar for clicado
+        navigationController?.popViewController(animated: true)
+    }
+}
+```
+
+---
+
+- Agora na classe RefeicoesTableViewController sobreescrevemos o metodo prepare for segue, ele é o metodo que intercepta toda vez que o comando "segue" invoca a outra tela
+
+```swift
+ // Metodo que é invocado antes do comando "segue", comando que chama a proxima tela
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Aqui acesso a classe da refeicao e inicializo a variavel declarada ---> var refeicoesTableViewController: RefeicoesTableViewController?
+        // o if fica da seguinte maneira:
+        // se na hora de interceptar a proxima tela, a variavel conseguir ser convertida ( cast ) para UIViewController ( que é o tipo da classe ViewController )
+        if let viewController = segue.destination as? ViewController {
+            // Entao inicializa
+            viewController.refeicoesTableViewController = self
+        }
+    }
+```
+
+---
+
+- Alem disso criamos um metodo para adiconar na lista uma refeicao da qual a classe ViewController vai usar
+
+```swift
+    func addRefeicao(_ refeicao: Refeicao){
+        refeicoes.append(refeicao);
+        
+        //Metodo para recarregar a tela
+        tableView.reloadData();
+    }
+```
+
+---
+
+- A classe fica assim RefeicoesTableViewController
+
+```swift
+class RefeicoesTableViewController: UITableViewController {
+    
+    var refeicoes = [Refeicao(nome: "Pizza", felicidade: 4),
+                     Refeicao(nome: "Lanche", felicidade: 5),
+                     Refeicao(nome: "Salada", felicidade: 2)]
+    
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return refeicoes.count;
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
+        
+        celula.textLabel?.text = refeicoes[indexPath.row].nome;
+        
+        return celula;
+        
+    }
+    
+    func addRefeicao(_ refeicao: Refeicao){
+        refeicoes.append(refeicao);
+        tableView.reloadData();
+    }
+    
+    // Metodo que é invocado antes do comando "segue", comando que chama a proxima tela
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // Aqui acesso a classe da refeicao e inicializo a variavel declarada ---> var refeicoesTableViewController: RefeicoesTableViewController?
+        // o if fica da seguinte maneira:
+        // se na hora de interceptar a proxima tela, a variavel conseguir ser convertida ( cast ) para UIViewController ( que é o tipo da classe ViewController )
+        if let viewController = segue.destination as? ViewController {
+            // Entao inicializa
+            viewController.refeicoesTableViewController = self
+        }
+    }
+}
+```
+---
+#### Entendendo a diferenca de se usar o "_" ou um nome como nome do metodo no parametro do metodo
+
+ - 1 - "_" -> o underline faz com que o nome do parametro nao seja exibido na chamada do metodo, ficando desta maneira
+```swift    
+    //Usando o _
+    func sum(_ n1: Int, _ n2: Int ) -> Int {
+        return n1 + n2;
+    }
+    
+    //Sem o _
+    func sub(n1: Int, n2: Int) -> Int {
+        return n1 - n2;
+    }
+    
+    func exampleMethodUnderscore(){
+        let sumResult  = sum(2, 3);
+        let subResult = sub(n1: 10, n2: 2)
+        
+        print("Sum result is \(sumResult)")
+        print("Sub result is \(subResult)")
+    }
+```
+
+ - 2 - usando o nome dentro do parametro
+    - Usar o nome dentro do parametro explica tambem alguns metodos que o proprio swift usa
+```swift
+    // Usando um nome no lugar do _
+    func sumOnly(doubleValues n1: Double, n2: Double) -> Double {
+        return n1 + n2;
+    }
+```
+ - Para encontrar o metodo sumOny podemos buscar vida CTRL + barra de espaço o nome dele que é double values
+   - A leitura do metodo fica mais ou menos assim
+   - Sum only double values ou Somando apenas valores do tipo double
+   - ```doubleValu ... + CTRL + barra de espaço```
+   
+```swift
+    func exampleMethodNameParameter(){        
+        let sumDoubleValuesResult = sumOnly(doubleValues: 2.5, n2: 7.2);
+        print("Sum dobule values result is \(sumDoubleValuesResult)")
+    }
+```
+---
+
+#### Diferenca entre if let e guard let
+
+ - No escopo do ```if``` se a variavel for diferente de nula, ela pode ser acessada apenas dentro do escopo do if
+ - No escopo do ```guard``` se a variavel for difernte de nula, ela pode ser acessada dentro do escopo do meotoo no qual ela foi declarada
+
+```swift
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Declarando if let a variavel é acessivel apenas dentro do escopo do if
+        if let celula = tableView.cellForRow(at: indexPath){
+            // celula pode ser usada apenas aqui dentro
+        }
+        
+        // Declarando guard let a variavel pode ser usada dentro do metodo invocado
+        guard let celula = tableView.cellForRow(at: indexPath) else {return}
+        // celua pode ser usadad dentro de todo o metodo didSelectRowAt
+        
+    }
+```
+
+---
+
+#### Criando um botao programaticamente, deixando ele ao lado direto no topo e invocando o metodo correto
+
+ - Primeiro invocamos o metodo ```viewDidLoad()``` ele sera executado assim que a tela for carregada
+ - Entendendo os itens agora de um ```UIBarButtonItem```
+    - title ---> titulo que o botao ira receber
+    - style ---> estilo que o botao vai ter quando for pressionado ( parte visual )
+    - target ---> diz aonde o metodo esta ( em qual classe ele se encontra Ex.: " target: ClasseComMetodo.metodo" )
+    - action ---> açao que sera invoacada quando o botao for pressionado
+    - #selector(self.adicionarItem) ---> em vez de usar uma string para informar o nome do metodo a ser invocado, usamos exatamente a chamada dele atraves da classe
+    
+```swift
+    
+    // Metodo que sera executado assim que a tela for carregada
+    override func viewDidLoad() {
+        // Entendendo melhor o UIBarButtonItem
+        // title ---> titulo que o botao ira receber
+        // style ---> estilo que o botao vai ter quando for pressionado ( parte visual )
+        // target ---> diz aonde o metodo esta ( em qual classe ele se encontra Ex.: " target: ClasseComMetodo.metodo" )
+        // action ---> açao que sera invoacada quando o botao for pressionado
+        // #selector(self.adicionarItem) ---> em vez de usar uma string para informar o nome do metodo a ser invocado, usamos exatamente a chamada dele atraves da classe
+        
+        let botaoAdiconaItem = UIBarButtonItem(title: "adiciona item", style: .plain, target: self, action: #selector(self.adicionarItem))
+        
+        navigationItem.rightBarButtonItem = botaoAdiconaItem
+    }
+    
+    @objc func adicionarItem(){
+        print("item adicionado")
+    }
+```
+
+---
+
+
