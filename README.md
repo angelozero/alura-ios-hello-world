@@ -460,4 +460,88 @@ class RefeicoesTableViewController: UITableViewController {
 
 ---
 
+#### Usando a função gesture e longpress
 
+ - Funcao que é invocada quando o usuario pressiona por um determinado tempo x a tela do aplicativo em algum lugar.
+ 
+ ```swift
+     // Metodo que preenche cada celula com o nome da refeicao
+    // Usando gesture e longpress
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
+        
+        celula.textLabel?.text = refeicoes[indexPath.row].nome;
+        
+        // primeiro criamos um gestureRecognizer
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(mostrarDetalhesDaRefeicao(_:)))
+        
+        // adicionamos o evento a celula
+        celula.addGestureRecognizer(longPress)
+        
+        return celula;
+        
+    }
+    
+    @objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
+        
+        if(gesture.state == UIGestureRecognizer.State.began){
+            
+            let celula = gesture.view as! UITableViewCell
+            
+            guard let indexPath = tableView.indexPath(for: celula) else { return }
+            
+            let refeicao = refeicoes[indexPath.row]
+            
+            print(refeicao)
+           
+        }
+    }
+ ```
+
+---
+
+#### Utilizando alertas com UIAlertController com botao para fechar o alerta
+
+```swift
+    @objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
+        
+        if(gesture.state == UIGestureRecognizer.State.began){
+            
+            let celula = gesture.view as! UITableViewCell
+            
+            guard let indexPath = tableView.indexPath(for: celula) else { return }
+            
+            let refeicao = refeicoes[indexPath.row]
+            
+            print(refeicao)
+            
+            let alerta = UIAlertController(title: refeicao.nome, message: "\(refeicao)" , preferredStyle: UIAlertController.Style.alert)
+            
+            let botaoFechaAlerta = UIAlertAction(title: "fechar", style: UIAlertAction.Style.destructive, handler: nil)
+            
+            alerta.addAction(botaoFechaAlerta)
+            
+            present(alerta, animated: true, completion: nil)
+           
+        }
+    }
+```
+
+---
+
+#### Encapsulamento
+
+ - Para mostrar todos os detalhes do objeto Refeicao sobreescrevemos o metodo ```description``` da classe ```Refeicao```
+
+```swift
+class Refeicao: NSObject {
+    
+ // ... some code here
+ 
+    public override var description: String{
+        return "\n{\nnome: \(nome),\n"
+            + "   felicidade: \(felicidade),\n"
+            + "   itens: \(itens)\n}\n"
+    }
+}
+```
