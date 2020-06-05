@@ -545,3 +545,36 @@ class Refeicao: NSObject {
     }
 }
 ```
+---
+
+#### Optional Chaining
+
+ - Entendendo o porque de usar uma ? a frente do codigo
+ - Isso se chama optional chaining
+ - Basicamente o que este trecho esta fazendo seria o equivalente ao codigo abaixo
+ 
+```swift
+if(delegate != nil){
+   delegate!.add(item)
+}
+```
+ - O codigo fica assim
+ 
+ ```swift
+ @IBAction func adicionarItem(_ sender: Any) {
+        
+      // some code here ...
+      
+        let item = Item(nome: nomeDoItem, calorias: caloriasTotal)
+        
+
+//        if(delegate != nil){
+//            delegate!.add(item)
+//        }
+        
+        delegate?.add(item)
+    }
+```
+
+---
+
