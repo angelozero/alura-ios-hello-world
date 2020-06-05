@@ -47,6 +47,15 @@ class AdicionarItensViewController: UIViewController {
         
         let item = Item(nome: nomeDoItem, calorias: caloriasTotal)
         
+        
+        // Entendendo o porque de usar uma ? a frente do codigo
+        // Isso se chama optional chaining
+        // Basicamente o que este trecho esta fazendo seria o equivalente ao codigo comentado
+        
+//        if(delegate != nil){
+//            delegate!.add(item)
+//        }
+        
         delegate?.add(item)
         
         navigationController?.popViewController(animated: true)

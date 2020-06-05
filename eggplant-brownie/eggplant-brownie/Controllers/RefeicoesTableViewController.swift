@@ -26,20 +26,50 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDeleg
         tableView.reloadData();
     }
     
+    // Metodo que retorna a quantidade de celulas referente o tamanho da lista de refeicao
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return refeicoes.count;
     }
     
-    
+    // Metodo que preenche cada celula com o nome da refeicao
+    // Usando gesture e longpress
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
         
         celula.textLabel?.text = refeicoes[indexPath.row].nome;
         
+        // primeiro criamos um gestureRecognizer
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(mostrarDetalhesDaRefeicao(_:)))
+        
+        // adicionamos o evento a celula
+        celula.addGestureRecognizer(longPress)
+        
         return celula;
         
     }
     
+    @objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
+        
+        if(gesture.state == UIGestureRecognizer.State.began){
+            
+            let celula = gesture.view as! UITableViewCell
+            
+            guard let indexPath = tableView.indexPath(for: celula) else { return }
+            
+            let refeicao = refeicoes[indexPath.row]
+            
+            print(refeicao)
+            
+            let alerta = UIAlertController(title: refeicao.nome, message: "\(refeicao)" , preferredStyle: UIAlertController.Style.alert)
+            
+            let botaoFechaAlerta = UIAlertAction(title: "ok", style: UIAlertAction.Style.destructive, handler: nil)
+            
+            alerta.addAction(botaoFechaAlerta)
+            
+            present(alerta, animated: true, completion: nil)
+           
+        }
+    }
     
     
     // Metodo que é invocado antes do comando "segue", comando que chama a proxima tela

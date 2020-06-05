@@ -35,4 +35,10 @@ class Refeicao: NSObject {
         
         return total
     }
+    
+    public override var description: String{
+        return "\n{\nnome: \(nome),\n"
+            + "   felicidade: \(felicidade),\n"
+            + "   itens: \(itens)\n}\n"
+    }
 }

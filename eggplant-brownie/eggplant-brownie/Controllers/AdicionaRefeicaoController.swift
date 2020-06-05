@@ -105,11 +105,13 @@ class AdicionaRefeicaoController: UIViewController, UITableViewDataSource, UITab
         
     }
     
-    
+    // Retorna o numero de celulas que a view deve ter
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itens.count
     }
     
+    
+    // Preenche celula com o nome da refeicao
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
         celula.textLabel?.text = itens[indexPath.row].nome

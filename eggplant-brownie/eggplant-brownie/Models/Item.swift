@@ -21,4 +21,9 @@ class Item: NSObject {
         self.nome = nome
         self.calorias = calorias
     }
+    
+    public override var description: String{
+        return "\n{\n   nome: \(nome),\n"
+            + "   calorias: \(calorias)\n}\n"
+    }
 }
