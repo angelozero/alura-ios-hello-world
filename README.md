@@ -641,12 +641,19 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDeleg
             
    // more code here ...
 
-    // Usando Closure
-    let botaoRemoveRefeicao = UIAlertAction(title: "remover", style: .destructive, handler: {
-        acaoRemover in
-        self.refeicoes.remove(at: indexPath.row)
-        self.tableView.reloadData()
-    })
+     // Usando Closure
+     let botaoRemoveRefeicao = UIAlertAction(title: "remover", style: .destructive, handler: {
+         acaoRemover in
+         self.refeicoes.remove(at: indexPath.row)
+         self.tableView.reloadData()
+     })
+     
+     alerta.addAction(botaoRemoveRefeicao)
+            
+     present(alerta, animated: true, completion: nil)
+     
+  }    
+} 
     
  ```
 ---
