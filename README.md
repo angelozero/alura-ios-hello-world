@@ -656,4 +656,47 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDeleg
 } 
     
  ```
+ 
+ - Ou podemos usar invocando metodos em vez de passar todos os parametros a serem executados apos o ```in```
+ 
+ ```swift
+ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDelegate { 
+   
+   // some code here...
+
+   // metodo que sera invocado dentro da closure
+   func removeRefeicaoClosure(posicao: Int) {
+       self.refeicoes.remove(at: posicao)
+       self.tableView.reloadData()
+   }
+    
+    // some code here
+   
+   @objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
+    
+   // som code from the method here...
+    
+   // Metodo antigo
+         //self.posicaoListaRefeicao = indexPath.row
+         // --- Funcao dentro de outra funcao --- //
+         // func removeRefeicao(alert: UIAlertAction){
+         //    self.refeicoes.remove(at: indexPath.row)
+         //    tableView.reloadData();
+         // }
+            
+   // more code here ...
+
+     // Usando Closure
+     let botaoRemoveRefeicao = UIAlertAction(title: "remover", style: .destructive, handler: {
+         acaoRemover in
+         self.removeRefeicaoClosure(posicao: indexPath.row)
+     })
+     
+     alerta.addAction(botaoRemoveRefeicao)
+            
+     present(alerta, animated: true, completion: nil)
+     
+  }    
+} 
+ ```
 ---
