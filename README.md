@@ -578,9 +578,75 @@ if(delegate != nil){
 
 ---
 
-#### Utilizando Handlers
+#### Utilizando Handlers e funcoes dentro de funcoes
 
-- Invocando um metodo ao clicar no botao de alerta
+- Invocando um metodo ao clicar no botao de alerta e declarando uma funcao que sera invocada pelo handler dentro do metodo de ```MostrarDetalhesDaRefeicao```
 
 ```swift
+@objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
+        
+        if(gesture.state == UIGestureRecognizer.State.began){
+
+            let celula = gesture.view as! UITableViewCell
+            
+            guard let indexPath = tableView.indexPath(for: celula) else { return }
+            
+            //self.posicaoListaRefeicao = indexPath.row
+            // --- Funcao dentro de outra funcao --- //
+            func removeRefeicao(alert: UIAlertAction){
+                self.refeicoes.remove(at: indexPath.row)
+                tableView.reloadData();
+            }
+            
+            let refeicao = refeicoes[indexPath.row]
+            
+            let alerta = UIAlertController(title: refeicao.nome, message: "\(refeicao)" , preferredStyle: UIAlertController.Style.alert)
+            
+            let botaoFechaAlerta = UIAlertAction(title: "ok", style: UIAlertAction.Style.cancel, handler: nil)
+            
+            let botaoRemoveRefeicao = UIAlertAction(title: "remover", style: .destructive, handler: removeRefeicao)
+            
+            alerta.addAction(botaoFechaAlerta)
+            alerta.addAction(botaoRemoveRefeicao)
+            
+            present(alerta, animated: true, completion: nil)
+            
+            
+        }
+    }
 ```
+
+---
+
+#### Closures
+
+ - Closures sao funcoes executadas dentro de um handler 
+ 
+ ```swift
+class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDelegate { 
+   
+   // some code here...
+   
+   @objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
+    
+   // som code from the method here...
+    
+   // Metodo antigo
+         //self.posicaoListaRefeicao = indexPath.row
+         // --- Funcao dentro de outra funcao --- //
+         // func removeRefeicao(alert: UIAlertAction){
+         //    self.refeicoes.remove(at: indexPath.row)
+         //    tableView.reloadData();
+         // }
+            
+   // more code here ...
+
+    // Usando Closure
+    let botaoRemoveRefeicao = UIAlertAction(title: "remover", style: .destructive, handler: {
+        acaoRemover in
+        self.refeicoes.remove(at: indexPath.row)
+        self.tableView.reloadData()
+    })
+    
+ ```
+---
