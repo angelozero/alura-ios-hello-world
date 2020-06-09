@@ -578,3 +578,9 @@ if(delegate != nil){
 
 ---
 
+#### Utilizando Handlers
+
+- Invocando um metodo ao clicar no botao de alerta
+
+```swift
+```
