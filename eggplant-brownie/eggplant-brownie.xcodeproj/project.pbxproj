@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5663ABFF24870B730076AE68 /* AdicionarItensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5663ABFD24870B730076AE68 /* AdicionarItensViewController.swift */; };
 		5663AC0024870B730076AE68 /* AdicionarItensViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5663ABFE24870B730076AE68 /* AdicionarItensViewController.xib */; };
+		56754F35249038E4004C41D6 /* Alerta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56754F34249038E4004C41D6 /* Alerta.swift */; };
+		56754F372490638D004C41D6 /* RemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56754F362490638D004C41D6 /* RemoveViewController.swift */; };
 		56D8471B2474A3A5008F1EF2 /* RefeicoesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D8471A2474A3A5008F1EF2 /* RefeicoesTableViewController.swift */; };
 		B90829C72221AF9600EA37C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90829C62221AF9600EA37C8 /* AppDelegate.swift */; };
 		B90829C92221AF9600EA37C8 /* AdicionaRefeicaoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90829C82221AF9600EA37C8 /* AdicionaRefeicaoController.swift */; };
@@ -22,6 +24,8 @@
 /* Begin PBXFileReference section */
 		5663ABFD24870B730076AE68 /* AdicionarItensViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdicionarItensViewController.swift; sourceTree = "<group>"; };
 		5663ABFE24870B730076AE68 /* AdicionarItensViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdicionarItensViewController.xib; sourceTree = "<group>"; };
+		56754F34249038E4004C41D6 /* Alerta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerta.swift; sourceTree = "<group>"; };
+		56754F362490638D004C41D6 /* RemoveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveViewController.swift; sourceTree = "<group>"; };
 		56D8471A2474A3A5008F1EF2 /* RefeicoesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefeicoesTableViewController.swift; sourceTree = "<group>"; };
 		B90829C32221AF9600EA37C8 /* eggplant-brownie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eggplant-brownie.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B90829C62221AF9600EA37C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 			children = (
 				B9EFBAE7223D76FA00B773B2 /* Refeicao.swift */,
 				B9EFBAE9223D775300B773B2 /* Item.swift */,
+				56754F34249038E4004C41D6 /* Alerta.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -92,6 +97,7 @@
 				5663ABFD24870B730076AE68 /* AdicionarItensViewController.swift */,
 				B90829C82221AF9600EA37C8 /* AdicionaRefeicaoController.swift */,
 				56D8471A2474A3A5008F1EF2 /* RefeicoesTableViewController.swift */,
+				56754F362490638D004C41D6 /* RemoveViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -179,10 +185,12 @@
 			files = (
 				B9EFBAEA223D775300B773B2 /* Item.swift in Sources */,
 				5663ABFF24870B730076AE68 /* AdicionarItensViewController.swift in Sources */,
+				56754F372490638D004C41D6 /* RemoveViewController.swift in Sources */,
 				B90829C92221AF9600EA37C8 /* AdicionaRefeicaoController.swift in Sources */,
 				56D8471B2474A3A5008F1EF2 /* RefeicoesTableViewController.swift in Sources */,
 				B9EFBAE8223D76FA00B773B2 /* Refeicao.swift in Sources */,
 				B90829C72221AF9600EA37C8 /* AppDelegate.swift in Sources */,
+				56754F35249038E4004C41D6 /* Alerta.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

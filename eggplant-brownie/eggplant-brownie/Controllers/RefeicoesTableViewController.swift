@@ -13,7 +13,9 @@ import UIKit
 
 
 class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDelegate {
- 
+    
+    //    var posicaoListaRefeicao: Int?
+    
     var refeicoes = [Refeicao(nome: "Pizza", felicidade: 4),
                      Refeicao(nome: "Lanche", felicidade: 5),
                      Refeicao(nome: "Salada", felicidade: 2)]
@@ -48,28 +50,26 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDeleg
         
     }
     
+
+    
     @objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
         
         if(gesture.state == UIGestureRecognizer.State.began){
-            
+
             let celula = gesture.view as! UITableViewCell
             
             guard let indexPath = tableView.indexPath(for: celula) else { return }
             
             let refeicao = refeicoes[indexPath.row]
             
-            print(refeicao)
-            
-            let alerta = UIAlertController(title: refeicao.nome, message: "\(refeicao)" , preferredStyle: UIAlertController.Style.alert)
-            
-            let botaoFechaAlerta = UIAlertAction(title: "ok", style: UIAlertAction.Style.destructive, handler: nil)
-            
-            alerta.addAction(botaoFechaAlerta)
-            
-            present(alerta, animated: true, completion: nil)
-           
+            RemoveRefeicaoViewController(controller: self).exibe(refeicao, handler: {
+                alertaRemocaoRefeicao in
+                self.refeicoes.remove(at: indexPath.row)
+                self.tableView.reloadData()
+            })
         }
     }
+
     
     
     // Metodo que é invocado antes do comando "segue", comando que chama a proxima tela
@@ -129,5 +129,5 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDeleg
         print("Sum dobule values result is \(sumDoubleValuesResult)")
         
     }
-        
+    
 }

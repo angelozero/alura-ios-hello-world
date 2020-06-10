@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zA9-h6-hCi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zA9-h6-hCi">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -92,7 +92,7 @@
                     <navigationItem key="navigationItem" id="Wh5-P0-GLo"/>
                     <connections>
                         <outlet property="felicidadeTextField" destination="9CG-6j-ACH" id="KKV-sQ-tXK"/>
-                        <outlet property="itensTableView" destination="8fo-Jz-d8t" id="YQp-Gw-KPa"/>
+                        <outlet property="itensTableView" destination="8fo-Jz-d8t" id="frO-Vi-Irw"/>
                         <outlet property="nomeTextField" destination="g4B-Ax-cfm" id="z5F-Y4-Und"/>
                     </connections>
                 </viewController>
