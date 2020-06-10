@@ -700,3 +700,61 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDeleg
 } 
  ```
 ---
+
+#### Escaping closures @scaping
+
+- O ```@escaping``` é a referencia da closure que sera executada apos o termino da funçao recorrente, ou seja é a referencia da closure que sera executada depois. Neste exemplo executamos primeiro o metodo ```exibe()``` da classe ```RemoveRefeicaoViewController``` para assim que terminar ele seja executado no metodo ```mostrarDetalhesDaRefeicao``` da classe ```RefeicoesTableViewController```. O codigo fica assim
+
+```swift
+class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDelegate {
+
+    // some code here ... 
+    
+    @objc func mostrarDetalhesDaRefeicao(_ gesture: UILongPressGestureRecognizer){
+        
+        if(gesture.state == UIGestureRecognizer.State.began){
+
+            let celula = gesture.view as! UITableViewCell
+            
+            guard let indexPath = tableView.indexPath(for: celula) else { return }
+            
+            let refeicao = refeicoes[indexPath.row]
+            
+            RemoveRefeicaoViewController(controller: self).exibe(refeicao, handler: {
+                alertaRemocaoRefeicao in
+                self.refeicoes.remove(at: indexPath.row)
+                self.tableView.reloadData()
+            })
+        }
+    }
+}
+```
+
+```swift
+class RemoveRefeicaoViewController {
+    
+    let controller: UIViewController
+    
+    
+    init(controller: UIViewController) {
+        self.controller = controller
+    }
+    
+    func exibe(_ refeicao: Refeicao, handler: @escaping (UIAlertAction) -> Void){
+        
+        let alerta = UIAlertController(title: refeicao.nome, message: "\(refeicao)" , preferredStyle: UIAlertController.Style.alert)
+        
+        let botaoFechaAlerta = UIAlertAction(title: "ok", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        
+        let botaoRemoveRefeicao = UIAlertAction(title: "remover", style: .destructive, handler: handler)
+        
+        
+        alerta.addAction(botaoFechaAlerta)
+        alerta.addAction(botaoRemoveRefeicao)
+        
+        controller.present(alerta, animated: true, completion: nil)
+    }
+
+}
+```
