@@ -1,5 +1,22 @@
 # iOs - Swift Básico
 
+
+#### Atalhos XCode
+
+ - Auto Fix
+   - *control + alt + command + f*
+   
+ - Usando Mark ( escrever MARK em maiusculo )
+    - ```// MARK : descricao````
+
+- Identar
+   - control + i
+
+- Deletar linha ( com o curso no comeco da linha )
+    - control + k
+
+---
+
 - Declarando variáveis
 
 ```swift
