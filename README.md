@@ -15,6 +15,9 @@
 - Deletar linha ( com o curso no comeco da linha )
     - control + k
 
+- Duas abas
+ - command + control + t
+
 ---
 
 - Declarando variáveis
