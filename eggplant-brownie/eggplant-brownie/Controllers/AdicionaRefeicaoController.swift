@@ -14,69 +14,32 @@ protocol AdicionaRefeicaoDelegate {
 
 class AdicionaRefeicaoController: UIViewController, UITableViewDataSource, UITableViewDelegate, AdicionaItensDelegate {
     
-   
-    @IBOutlet weak var itensTableView: UITableView!
-    
-    
-    // MARK - Atributos
+    // MARK: - Atributos da classe
     
     // Declarando uma variavel referente a table view controller de refeicao.
     // A classe RefeicoesTableViewController agora tem protocolo do qual nos permite acessar apenas o que realmente precisamos e nao todos seu conteudo.
     // Sendo assim tirando a acoplagem de classes
     var delegate: AdicionaRefeicaoDelegate?
     
+    let arquivoService = ArquivoService()
     
-    var itens: [Item] = [Item(nome: "Pao", calorias: 2.0),
-                         Item(nome: "Alface", calorias: 2.0),
-                         Item(nome: "Tomate", calorias: 2.0),]
+    var itens: [Item] = []
     
     var itensSelecionados: [Item] = []
     
-    // MARK - IBOutles
+    // MARK: - IBOutles
+    @IBOutlet weak var itensTableView: UITableView!
+    
     @IBOutlet var nomeTextField: UITextField?
+    
     @IBOutlet weak var felicidadeTextField: UITextField?
     
-    
-    // Metodo que sera executado assim que a tela for carregada
-    override func viewDidLoad() {
-        // Entendendo melhor o UIBarButtonItem
-        // title ---> titulo que o botao ira receber
-        // style ---> estilo que o botao vai ter quando for pressionado ( parte visual )
-        // target ---> diz aonde o metodo esta ( em qual classe ele se encontra Ex.: " target: ClasseComMetodo.metodo" )
-        // action ---> açao que sera invoacada quando o botao for pressionado
-        // #selector(self.adicionarItem) ---> em vez de usar uma string para informar o nome do metodo a ser invocado, usamos exatamente a chamada dele atraves da classe
-        
-        let botaoAdiconaItem = UIBarButtonItem(title: "adiciona item", style: .plain, target: self, action: #selector(self.adicionarItem))
-        
-        navigationItem.rightBarButtonItem = botaoAdiconaItem
-    }
-    
-    @objc func adicionarItem(){
-        let adicionarItensViewController = AdicionarItensViewController(delegate: self)
-        navigationController?.pushViewController(adicionarItensViewController, animated: true)
-    }
-    
-    func add(_ item: Item) {
-        itens.append(item)
-        
-        if let tableView = itensTableView {
-            tableView.reloadData()
-        } else {
-            //Alerta(self).exibe(titulo: "Descuple", mensagem: "nao foi possivel atualizar a tabela", estilo: UIAlertController.Style.alert)
-            Alerta(self).exibe()
-        }
-    }
-    
-    //MARK - IBActions
+    //MARK: - IBActions
     @IBAction func adicionar(_ sender: Any) {
         
-        guard let nomeDaRefeicao = nomeTextField?.text else {
-            return
-        }
+        guard let nomeDaRefeicao = nomeTextField?.text else { return }
         
-        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else {
-            return
-        }
+        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else { return }
         
         let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
         
@@ -91,10 +54,34 @@ class AdicionaRefeicaoController: UIViewController, UITableViewDataSource, UITab
         navigationController?.popViewController(animated: true)
     }
     
+    //MARK: - Carregamento da tela
+    override func viewDidLoad() {
+        // Entendendo melhor o UIBarButtonItem
+        // title ---> titulo que o botao ira receber
+        // style ---> estilo que o botao vai ter quando for pressionado ( parte visual )
+        // target ---> diz aonde o metodo esta ( em qual classe ele se encontra Ex.: " target: ClasseComMetodo.metodo" )
+        // action ---> açao que sera invoacada quando o botao for pressionado
+        // #selector(self.adicionarItem) ---> em vez de usar uma string para informar o nome do metodo a ser invocado, usamos exatamente a chamada dele atraves da classe
+        
+        let botaoAdiconaItem = UIBarButtonItem(title: "adiciona item", style: .plain, target: self, action: #selector(self.adicionarItem))
+        
+        navigationItem.rightBarButtonItem = botaoAdiconaItem
+        
+        guard let itensSalvos:  [Item]  = arquivoService.carregaArquivo(caminhoDiretorio: "itens") else {return}
+        
+        itens = itensSalvos
+    }
+    
+    @objc func adicionarItem(){
+        let adicionarItensViewController = AdicionarItensViewController(delegate: self)
+        navigationController?.pushViewController(adicionarItensViewController, animated: true)
+    }
+    
+    //MARK: - Funcoes da tableView
     // Diferenca entre if let e guard let
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let celula = tableView.cellForRow(at: indexPath) else {return}
+        guard let celula = tableView.cellForRow(at: indexPath) else { return }
         
         if(celula.accessoryType == .none){
             celula.accessoryType = .checkmark
@@ -104,10 +91,7 @@ class AdicionaRefeicaoController: UIViewController, UITableViewDataSource, UITab
             if let position = itensSelecionados.index(of: itens[indexPath.row]) {
                 itensSelecionados.remove(at: position)
             }
-            
-            
         }
-        
     }
     
     // Retorna o numero de celulas que a view deve ter
@@ -121,6 +105,19 @@ class AdicionaRefeicaoController: UIViewController, UITableViewDataSource, UITab
         let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
         celula.textLabel?.text = itens[indexPath.row].nome
         return celula
+    }
+    
+    //MARK: - Funcoes
+    func add(_ item: Item) {
+        itens.append(item)
+        
+        if let tableView = itensTableView {
+            tableView.reloadData()
+            arquivoService.geraArquivo(listaGenerica: itens, caminhoDiretorio: "itens")
+        } else {
+            //Alerta(self).exibe(titulo: "Descuple", mensagem: "nao foi possivel atualizar a tabela", estilo: UIAlertController.Style.alert)
+            Alerta(self).exibe()
+        }
     }
 }
 

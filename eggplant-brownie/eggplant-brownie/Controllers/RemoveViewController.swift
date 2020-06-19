@@ -15,7 +15,6 @@ class RemoveRefeicaoViewController {
         
         let botaoFechaAlerta = UIAlertAction(title: "ok", style: UIAlertAction.Style.cancel, handler: nil)
         
-        
         let botaoRemoveRefeicao = UIAlertAction(title: "remover", style: .destructive, handler: handler)
         
         

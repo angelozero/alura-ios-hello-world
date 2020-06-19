@@ -14,28 +14,23 @@ protocol AdicionaItensDelegate {
 
 class AdicionarItensViewController: UIViewController {
     
+    // MARK: - Delegate
+    var delegate: AdicionaItensDelegate?
     
     init(delegate: AdicionaItensDelegate) {
         super.init(nibName: "AdicionarItensViewController", bundle: nil)
         self.delegate = delegate
     }
     
+    // MARK: Decode
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
+    // MARK: - Outlets
     @IBOutlet weak var nomeTextField: UITextField!
     
     @IBOutlet weak var caloriasTextField: UITextField!
-    
-    
-    var delegate: AdicionaItensDelegate?
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
     
     @IBAction func adicionarItem(_ sender: Any) {
         
@@ -52,13 +47,19 @@ class AdicionarItensViewController: UIViewController {
         // Isso se chama optional chaining
         // Basicamente o que este trecho esta fazendo seria o equivalente ao codigo comentado
         
-//        if(delegate != nil){
-//            delegate!.add(item)
-//        }
+        //        if(delegate != nil){
+        //            delegate!.add(item)
+        //        }
         
         delegate?.add(item)
         
         navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: - Carregamento da tela
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
     }
     
 }

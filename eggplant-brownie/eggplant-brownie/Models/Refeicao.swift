@@ -8,7 +8,9 @@
 
 import UIKit
 
-class Refeicao: NSObject {
+class Refeicao: NSObject, NSCoding {
+
+    
     
     // MARK: - Atributos
     
@@ -23,6 +25,21 @@ class Refeicao: NSObject {
         self.felicidade = felicidade
         self.itens = itens
     }
+    
+    // MARK: - Decode
+    func encode(with coder: NSCoder) {
+        coder.encode(nome, forKey: "nome")
+        coder.encode(felicidade, forKey: "felicidade")
+        coder.encode(itens, forKey: "itens")
+    }
+    
+    required init?(coder: NSCoder) {
+        self.nome = coder.decodeObject(forKey: "nome") as! String
+        self.felicidade = Int(coder.decodeCInt(forKey: "felicidade"))
+        self.itens = coder.decodeObject(forKey: "itens") as! Array<Item>
+    }
+    
+    
     
     // MARK: - Metodos
     
