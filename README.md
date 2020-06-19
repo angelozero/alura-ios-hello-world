@@ -778,3 +778,120 @@ class RemoveRefeicaoViewController {
 
 }
 ```
+
+--- 
+
+#### Salvando objetos no device com ```NSCoding```, *Serializando* uma classe e lendo um arquivo serializado
+
+ - Para criar ( salvar ) um arquivo serealizado criei esta classe que faz exatamente isso
+  - Para cada funçao preciso apenas informar o caminho da onde o arquivo esta sendo salvo e da onde ele deve ser lido. Deixei de uma forma generica para que qualquer classe possa usar independente do tipo de dado a ser salvo ( aqui salvo tanto uma lista de refeicao quanto uma lista de itens )
+ 
+ ```swift
+ import UIKit
+
+class ArquivoService {
+    
+    func geraArquivo<T>(listaGenerica lista: Array<T>, caminhoDiretorio: String){
+        
+        guard let caminho = recuperaCaminho(caminhoDiretorio: caminhoDiretorio) else { return }
+        
+        do {
+            let dados =  try NSKeyedArchiver.archivedData(withRootObject: lista, requiringSecureCoding: false)
+            
+            try dados.write(to: caminho)
+            
+            print("Arquivo gerado com sucesso")
+            
+        } catch {
+            print("Erro ao gerar arquivo de refeicoes " + error.localizedDescription)
+        }
+    }
+    
+    
+    
+    func carregaArquivo<T>(caminhoDiretorio: String) -> T? {
+        
+        guard let caminho = recuperaCaminho(caminhoDiretorio: caminhoDiretorio) else { return nil }
+        
+        print(caminho)
+        
+        do {
+            let dados = try Data(contentsOf: caminho)
+            
+            return try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(dados) as? T
+            
+        }catch {
+            print("Erro ao ler arquivo de refeicoes " + error.localizedDescription)
+        }
+        
+        return nil
+    }
+    
+    func recuperaCaminho(caminhoDiretorio: String) -> URL? {
+        guard let diretorio = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        
+        return diretorio.appendingPathComponent(caminhoDiretorio)
+        
+    }
+}
+ ```
+ 
+  - Para acesso a estes metodos 
+  
+  ```swift
+  class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDelegate {
+    
+    //    var posicaoListaRefeicao: Int?
+    
+    let arquivoService = ArquivoService()
+    
+    // some code here
+    
+    // Carregando o arquivo para trazer os dados ja cadastrados ao carregar a tela
+        override func viewWillAppear(_ animated: Bool) {
+        guard let dadosRefeicao: Array<Refeicao>  =  arquivoService.carregaArquivo(caminhoDiretorio: "refeicao") else { return }
+        refeicoes = dadosRefeicao
+        
+        print("tudo certo ate aqui")
+    }
+       
+       
+       // somne code here ...
+       
+       
+       // Atualizando o arquivo ao adicionar um item ( refeicao ou item )
+           func addRefeicao(_ refeicao: Refeicao) {
+        refeicoes.append(refeicao);
+        
+        //Metodo para recarregar a tela
+        tableView.reloadData();
+        
+        arquivoService.geraArquivo(listaGenerica: refeicoes, caminhoDiretorio: "refeicao")
+        
+    }
+    
+    // some code here ...
+       
+}
+  ```
+  
+ - E por fim serealizando / deserializando uma classe de dominio
+  - Use ```NSCoding```
+  
+ ```swift
+ class Refeicao: NSObject, NSCoding {
+     // MARK: - Decode
+    func encode(with coder: NSCoder) {
+        coder.encode(nome, forKey: "nome")
+        coder.encode(felicidade, forKey: "felicidade")
+        coder.encode(itens, forKey: "itens")
+    }
+    
+    required init?(coder: NSCoder) {
+        self.nome = coder.decodeObject(forKey: "nome") as! String
+        self.felicidade = Int(coder.decodeCInt(forKey: "felicidade"))
+        self.itens = coder.decodeObject(forKey: "itens") as! Array<Item>
+    }
+    
+  }
+ ```
