@@ -39,7 +39,9 @@ class AdicionaRefeicaoController: UIViewController, UITableViewDataSource, UITab
         
         guard let nomeDaRefeicao = nomeTextField?.text else { return }
         
-        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else { return }
+        guard let felicidadeDaRefeicao = felicidadeTextField?.text else { return }
+        
+        guard let felicidade = Int(felicidadeDaRefeicao) else { return }
         
         let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
         
