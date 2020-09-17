@@ -86,7 +86,7 @@ class RefeicoesTableViewController: UITableViewController, AdicionaRefeicaoDeleg
         }
     }
     
-    //MARK: - Adicionando uma Refeicao
+    //MARK: - Delegate de adicionar uma nova refeicao
     func addRefeicao(_ refeicao: Refeicao) {
         refeicoes.append(refeicao);
         

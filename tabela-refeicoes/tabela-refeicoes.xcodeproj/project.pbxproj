@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40F3035D2512E94F004AF380 /* ListaRefeicaoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3035C2512E94F004AF380 /* ListaRefeicaoController.swift */; };
 		56D8470724735179008F1EF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D8470624735179008F1EF2 /* AppDelegate.swift */; };
 		56D8470924735179008F1EF2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D8470824735179008F1EF2 /* SceneDelegate.swift */; };
 		56D8470B24735179008F1EF2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D8470A24735179008F1EF2 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		40F3035C2512E94F004AF380 /* ListaRefeicaoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaRefeicaoController.swift; sourceTree = "<group>"; };
 		56D8470324735179008F1EF2 /* tabela-refeicoes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tabela-refeicoes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D8470624735179008F1EF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56D8470824735179008F1EF2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				56D8470624735179008F1EF2 /* AppDelegate.swift */,
 				56D8470824735179008F1EF2 /* SceneDelegate.swift */,
 				56D8470A24735179008F1EF2 /* ViewController.swift */,
+				40F3035C2512E94F004AF380 /* ListaRefeicaoController.swift */,
 				56D8470C24735179008F1EF2 /* Main.storyboard */,
 				56D8470F2473517C008F1EF2 /* Assets.xcassets */,
 				56D847112473517C008F1EF2 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 				56D8470B24735179008F1EF2 /* ViewController.swift in Sources */,
 				56D8470724735179008F1EF2 /* AppDelegate.swift in Sources */,
 				56D8470924735179008F1EF2 /* SceneDelegate.swift in Sources */,
+				40F3035D2512E94F004AF380 /* ListaRefeicaoController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
