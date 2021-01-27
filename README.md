@@ -7,7 +7,7 @@
    - *control + alt + command + f*
    
  - Usando Mark ( escrever MARK em maiusculo )
-    - ```// MARK : descricao````
+    - ```// MARK : descricao```
 
 - Identar
    - control + i
